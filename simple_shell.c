@@ -12,5 +12,6 @@ int main(void)
 		cmd_line = get_line();
 		execute(cmd_line);
 	}
+	free(cmd_line);
 	return (0);
 }
