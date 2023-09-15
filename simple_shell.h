@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 void printer(const char *input);
-void prompt_display(void);
+void show_prompt(void);
 void execute(const char *input);
 void read_input(char *input, size_t size);
 size_t _strlen(const char *string);
