@@ -5,6 +5,12 @@
  */
 int main(void)
 {
+	char *cmd_line;
 	while(true)
+	{
 		show_prompt();
+		cmd_line = get_line();
+		execute(cmd_line);
+	}
+	return (0);
 }
