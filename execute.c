@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "simple_shell.h"
 
 /**
@@ -8,7 +9,8 @@
 void execute(char *line)
 {
 	pid_t child;
-	char *token;
+	char fullpath[255];
+	char *token, *path, *dir;
 	char *arg[255];
 	int count, status;
 
@@ -29,10 +31,34 @@ void execute(char *line)
 			++count;
 		}
 		arg[count] = NULL;
-		if (execve(arg[0], arg, NULL) == -1)
+		if (strchr(arg[0], '/') == NULL)
 		{
-			perror("Execve\n");
-			exit(EXIT_FAILURE);
+			path = getenv("PATH");
+			if (path)
+			{
+				dir = strtok(path, ":");
+				while (dir)
+				{
+					snprintf(fullpath, sizeof(fullpath), "%s/%s", dir, arg[0]);
+					if (access(fullpath, X_OK) == 0)
+					{
+						if (execve(fullpath, arg, NULL) == -1)
+						{
+							perror("Execve\n");
+							exit(EXIT_FAILURE);
+						}
+					}
+					dir = strtok(NULL, ":");
+				}
+			}
+		}
+		else
+		{
+			if (execve(arg[0], arg, NULL) == -1)
+			{
+				perror("Execve\n");
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else
