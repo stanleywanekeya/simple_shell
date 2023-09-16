@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "simple_shell.h"
-
 /**
  * execute - function to execute command line
  * @line: command line to be executed
@@ -10,11 +9,10 @@ void execute(char *line)
 {
 	pid_t child;
 	char fullpath[255];
-	char *token, *path, *dir;
 	char *arg[255];
-	int count, status;
+	char *path, *dir;
+	int status;
 
-	count = 0;
 	child = fork();
 	if (child == -1)
 	{
@@ -23,14 +21,7 @@ void execute(char *line)
 	}
 	if (child == 0)
 	{
-		token = strtok(line, " \n");
-		while (token != NULL)
-		{
-			arg[count] = token;
-			token = strtok(NULL, " \n");
-			++count;
-		}
-		arg[count] = NULL;
+		_tokenize(line, " \n", arg, 255);
 		if (strchr(arg[0], '/') == NULL)
 		{
 			path = getenv("PATH");
