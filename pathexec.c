@@ -3,7 +3,7 @@
 #include "simple_shell.h"
 
 /**
- * test_path - finds out if the command is foud in the path
+ * test_path - finds out if the command is found in the path
  * @path: path where command are found
  * @command: command entered by user
  * Return: command if found and NULL if not
