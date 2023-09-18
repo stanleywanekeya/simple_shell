@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include "simple_shell.h"
 /**
  * execute - function to execute command line
@@ -10,9 +9,17 @@ void execute(char *line)
 	pid_t child;
 	char fullpath[255];
 	char *arg[255];
-	char *path, *dir;
+	char *path;
 	int status;
 
+	_tokenize(line, " \n", arg, 255);
+	path = getenv("PATH");
+	test_path(path, arg[0], fullpath);
+	if (fullpath == NULL)
+	{
+		fprintf(stderr, "Failed to locate path\n");
+		exit(EXIT_FAILURE);
+	}
 	child = fork();
 	if (child == -1)
 	{
@@ -21,35 +28,10 @@ void execute(char *line)
 	}
 	if (child == 0)
 	{
-		_tokenize(line, " \n", arg, 255);
-		if (strchr(arg[0], '/') == NULL)
+		if (execve(fullpath, arg, NULL) == -1)
 		{
-			path = getenv("PATH");
-			if (path)
-			{
-				dir = strtok(path, ":");
-				while (dir)
-				{
-					snprintf(fullpath, sizeof(fullpath), "%s/%s", dir, arg[0]);
-					if (access(fullpath, X_OK) == 0)
-					{
-						if (execve(fullpath, arg, NULL) == -1)
-						{
-							perror("Execve\n");
-							exit(EXIT_FAILURE);
-						}
-					}
-					dir = strtok(NULL, ":");
-				}
-			}
-		}
-		else
-		{
-			if (execve(arg[0], arg, NULL) == -1)
-			{
-				perror("Execve\n");
-				exit(EXIT_FAILURE);
-			}
+			perror("Execve\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
