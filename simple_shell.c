@@ -5,6 +5,13 @@
  */
 int main(void)
 {
-	while(true)
+	char input[150];
+
+	while (true)
+	{
 		show_prompt();
+		read_input(input, sizeof(input));
+		execute(input);
+	}
+	return (0);
 }
