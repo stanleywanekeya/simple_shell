@@ -6,6 +6,7 @@
  * test_path - finds out if the command is found in the path
  * @path: path where command are found
  * @command: command entered by user
+ * @fullpath: buffer to store the path
  * Return: command if found and NULL if not
  */
 void test_path(char *path, char *command, char fullpath[])
