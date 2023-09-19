@@ -10,11 +10,13 @@
 
 void printer(const char *input);
 void show_prompt(void);
-void execute(char *input);
+void execute(char *input, char **environ);
 void read_input(char *input, size_t size);
 size_t _strlen(const char *string);
 char *get_line(void);
 void _tokenize(char *line, const char *delim, char *arg[], int max_token);
 void test_path(char *path, char *command, char fullpath[]);
+void _env(char **environ);
+void exit_cmd(void);
 
 #endif /* SIMPLE_SHELL_H */

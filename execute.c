@@ -2,9 +2,10 @@
 #include "simple_shell.h"
 /**
  * execute - function to execute command line
+ * @environ: environment variable acquired through main
  * @line: command line to be executed
  */
-void execute(char *line)
+void execute(char *line, char **environ)
 {
 	pid_t child;
 	char fullpath[255];
@@ -14,6 +15,10 @@ void execute(char *line)
 
 	_tokenize(line, " \n", arg, 255);
 	path = getenv("PATH");
+	if (strcmp(line, "exit") == 0)
+		exit_cmd();
+	if (strcmp(line, "env") == 0)
+		_env(environ);
 	test_path(path, arg[0], fullpath);
 	if (fullpath == NULL)
 	{
