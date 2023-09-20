@@ -1,7 +1,7 @@
 #include "simple_shell.h"
 /**
  * _strlen - cutom function to calculate string length
- * @string - Pointer to string
+ * @string: Pointer to string
  * Return: length of string
  */
 

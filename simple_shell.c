@@ -2,9 +2,8 @@
 /**
  * main - Main entry point
  * @env: environment variable
- * @argc: main argument count
- * @argv: main argument array
- * __attribute__: compiller attribute
+ * @argc: main argument count (unused)
+ * @argv: main argument array (unused)
  * Return: Always 0
  */
 int main(int __attribute__((__unused__))argc,
@@ -28,6 +27,7 @@ int main(int __attribute__((__unused__))argc,
 			free(cmd_line);
 			break;
 		}
+
 		execute(cmd_line, env);
 	}
 	free(cmd_line);
