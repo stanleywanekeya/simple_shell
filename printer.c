@@ -1,5 +1,6 @@
 #include "simple_shell.h"
-/** printer -  function that prints input from user
+/**
+ * printer -  function that prints input from user
  * @input: Pointer to the user input to be printed
  * Return: Always 0
  *
