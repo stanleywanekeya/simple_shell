@@ -2,32 +2,20 @@
 /**
  * main - Main entry point
  * @env: environment variable
- * @argc: main argument count (unused)
- * @argv: main argument array (unused)
+ * @argc: main argument count
+ * @argv: main argument array
  * Return: Always 0
  */
-int main(int __attribute__((__unused__))argc,
-		char __attribute__((__unused__))**argv, char **env)
+int main(int argc, char **argv, char **env)
 {
 	char *cmd_line;
 
+	(void) argc;
+	(void) argv;
 	while (true)
 	{
 		show_prompt();
 		cmd_line = get_line();
-		if (cmd_line == NULL)
-			break;
-		if (strcmp(cmd_line, "exit") == 0)
-		{
-			free(cmd_line);
-			break;
-		}
-		if (strcmp(cmd_line, "quit") == 0)
-		{
-			free(cmd_line);
-			break;
-		}
-
 		execute(cmd_line, env);
 	}
 	free(cmd_line);

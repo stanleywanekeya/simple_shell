@@ -18,6 +18,7 @@ void test_path(char *path, char *command, char fullpath[])
 	new = strdup(path);
 	if (strchr(command, '/') == NULL)
 	{
+
 		dir = strtok(new, ":");
 		while (dir)
 		{

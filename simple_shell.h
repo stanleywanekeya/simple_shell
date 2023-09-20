@@ -18,5 +18,6 @@ void _tokenize(char *line, const char *delim, char *arg[], int max_token);
 void test_path(char *path, char *command, char fullpath[]);
 void _env(char **environ);
 void exit_cmd(void);
+void cd(char *dir);
 
 #endif /* SIMPLE_SHELL_H */

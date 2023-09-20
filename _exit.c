@@ -5,5 +5,5 @@
  */
 void exit_cmd(void)
 {
-	exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
