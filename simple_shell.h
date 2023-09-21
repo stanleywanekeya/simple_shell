@@ -19,5 +19,11 @@ void test_path(char *path, char *command, char fullpath[]);
 void _env(char **environ);
 void exit_cmd(void);
 void cd(char *dir);
+char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
+char *_strdup(char *str);
+char *_strchr(const char *path, int c);
+int _strcmp(const char *s1, const char *s2);
+int _strncmp(const char *s1, const char *s2, size_t n);
 
 #endif /* SIMPLE_SHELL_H */

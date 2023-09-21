@@ -15,19 +15,28 @@ void test_path(char *path, char *command, char fullpath[])
 	int i;
 
 	i = 0;
-	new = strdup(path);
-	if (strchr(command, '/') == NULL)
+	new = _strdup(path);
+	if (new == NULL)
+	{
+		perror("Failed to duplicate new\n");
+		exit(EXIT_FAILURE);
+	}
+	if (_strchr(command, '/') == NULL)
 	{
 
 		dir = strtok(new, ":");
 		while (dir)
 		{
-			snprintf(fullpath, 255, "%s/%s", dir, command);
+			_strcpy(fullpath, dir);
+			_strcat(fullpath, "/");
+			_strcat(fullpath, command);
 			if (access(fullpath, X_OK) == 0)
 			{
+				free(new);
 				return;
 			}
 			dir = strtok(NULL, ":");
+			memset(fullpath, 0, 255);
 		}
 	}
 	else
@@ -42,6 +51,7 @@ void test_path(char *path, char *command, char fullpath[])
 			}
 			fullpath[i] = '\0';
 		}
+		free(new);
 		return;
 	}
 }

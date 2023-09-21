@@ -8,37 +8,46 @@
 void execute(char *line, char **environ)
 {
 	pid_t child;
-	char fullpath[255];
-	char *arg[255];
-	char *path;
+	char fullpath[255], *arg[255], *path;
 	int status;
 
 	_tokenize(line, " \n", arg, 255);
 	path = getenv("PATH");
-	if (strcmp(line, "exit") == 0)
+	if (_strcmp(line, "exit") == 0)
+	{
+		free(line);
 		exit_cmd();
-	if (strcmp(line, "env") == 0)
+	}
+	if (_strcmp(line, "env") == 0)
 		_env(environ);
-	test_path(path, arg[0], fullpath);
-	if (fullpath == NULL)
+	if (strncmp(line, "cd", 2) == 0)
 	{
-		fprintf(stderr, "Failed to locate path\n");
-		exit(EXIT_FAILURE);
-	}
-	child = fork();
-	if (child == -1)
-	{
-		fprintf(stderr, "Failed to fork\n");
-		exit(EXIT_FAILURE);
-	}
-	if (child == 0)
-	{
-		if (execve(fullpath, arg, NULL) == -1)
-		{
-			perror("Execve\n");
-			exit(EXIT_FAILURE);
-		}
+		cd(arg[1]);
 	}
 	else
-		wait(&status);
+	{
+		test_path(path, arg[0], fullpath);
+		if (fullpath == NULL)
+		{
+			fprintf(stderr, "Failed to locate path\n");
+			exit(EXIT_FAILURE);
+		}
+		child = fork();
+		if (child == -1)
+		{
+			fprintf(stderr, "Failed to fork\n");
+			exit(EXIT_FAILURE);
+		}
+		if (child == 0)
+		{
+			if (execve(fullpath, arg, NULL) == -1)
+			{
+				perror("Execve\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+			wait(&status);
+	}
+	free(line);
 }

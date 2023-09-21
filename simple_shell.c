@@ -16,6 +16,8 @@ int main(int argc, char **argv, char **env)
 	{
 		show_prompt();
 		cmd_line = get_line();
+		if (strcmp(cmd_line, "\n") == 0)
+			continue;
 		execute(cmd_line, env);
 	}
 	free(cmd_line);
