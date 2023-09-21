@@ -16,9 +16,9 @@ int main(int argc, char **argv, char **env)
 	is_terminal = isatty(STDIN_FILENO);
 	while (true)
 	{
+		show_prompt();
 		if (is_terminal)
 		{
-			show_prompt();
 			cmd_line = get_line();
 			if (cmd_line == NULL)
 				break;
