@@ -9,17 +9,36 @@
 int main(int argc, char **argv, char **env)
 {
 	char *cmd_line;
+	bool is_terminal;
 
 	(void) argc;
 	(void) argv;
+	is_terminal = isatty(STDIN_FILENO);
 	while (true)
 	{
-		show_prompt();
-		cmd_line = get_line();
-		if (strcmp(cmd_line, "\n") == 0)
-			continue;
-		execute(cmd_line, env);
+		if (is_terminal)
+		{
+			show_prompt();
+			cmd_line = get_line();
+			if (cmd_line == NULL)
+				break;
+			if (strcmp(cmd_line, "\n") == 0)
+			{
+				free(cmd_line);
+				continue;
+			}
+			execute(cmd_line, env);
+			free(cmd_line);
+		}
+		else
+		{
+			cmd_line = get_line();
+			if (cmd_line == NULL)
+				break;
+			execute(cmd_line, env);
+			free(cmd_line);
+			break;
+		}
 	}
-	free(cmd_line);
 	return (0);
 }

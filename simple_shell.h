@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+extern char **environ;
 void printer(const char *input);
 void show_prompt(void);
 void execute(char *input, char **environ);
