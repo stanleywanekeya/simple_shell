@@ -8,6 +8,8 @@
 size_t _strlen(const char *string)
 {
 	size_t len = 0;
+	if (string == NULL)
+		return (-1);
 
 	if (*string != '\0')
 	{

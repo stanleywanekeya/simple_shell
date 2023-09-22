@@ -1,5 +1,10 @@
 #include "simple_shell.h"
 
+/**
+ * _strdup - duplicates memory
+ * @str: string to duplicate
+ * Return: value duplicated
+ */
 char *_strdup(char *str)
 {
 	char *new;
@@ -9,11 +14,16 @@ char *_strdup(char *str)
 	if (str == NULL)
 	{
 		perror("No string to duplicate\n");
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	while (str[len])
 		++len;
 	new = (char *)malloc((len + 1) * sizeof(char));
+	if (new == NULL)
+	{
+		perror("Failed to allocate memory\n");
+		return (NULL);
+	}
 	while (str[i])
 	{
 		new[i] = str[i];

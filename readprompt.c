@@ -10,7 +10,14 @@ char *get_line(void)
 	ssize_t nread;
 	size_t n;
 
+	if (isatty(STDIN_FILENO))
+		show_prompt();
 	n = nread = 0;
 	nread = getline(&line, &n, stdin);
+	if (nread == -1)
+	{
+		free(line);
+		return (NULL);
+	}
 	return (line);
 }

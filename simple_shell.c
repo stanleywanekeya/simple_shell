@@ -1,44 +1,33 @@
 #include "simple_shell.h"
 /**
  * main - Main entry point
- * @env: environment variable
  * @argc: main argument count
  * @argv: main argument array
  * Return: Always 0
  */
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv)
 {
 	char *cmd_line;
-	bool is_terminal;
+	char **command;
+	int status;
 
+	status = 0;
+	cmd_line = NULL;
+	command = NULL;
 	(void) argc;
-	(void) argv;
-	is_terminal = isatty(STDIN_FILENO);
 	while (true)
 	{
-		show_prompt();
-		if (is_terminal)
+		cmd_line = get_line();
+		if (cmd_line == NULL)
 		{
-			cmd_line = get_line();
-			if (cmd_line == NULL)
-				break;
-			if (strcmp(cmd_line, "\n") == 0)
-			{
-				free(cmd_line);
-				continue;
-			}
-			execute(cmd_line, env);
-			free(cmd_line);
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			return (status);
 		}
-		else
-		{
-			cmd_line = get_line();
-			if (cmd_line == NULL)
-				break;
-			execute(cmd_line, env);
-			free(cmd_line);
-			break;
-		}
+		command = _tokenize(cmd_line);
+		if (!command)
+			continue;
+		status = execute(command, argv);
 	}
 	return (0);
 }

@@ -3,27 +3,48 @@
 /**
  * _tokenize - tokenizes the command line
  * @line: line to be tokenized
- * @delim: delimiters for the token
- * @arg: array to store the tokens
- * @max_token: maximum tokens rewuired for arg
+ * Return: character tokenized
  */
-void _tokenize(char *line, const char *delim, char *arg[], int max_token)
+char **_tokenize(char *line)
 {
-	char *token;
-	int count;
+	char *token, *tmp, **command;
+	int count, i;
 
-	count = 0;
-	token = strtok(line, delim);
-	while (token != NULL && count < max_token)
+	token = NULL;
+	tmp = NULL;
+	command = NULL;
+	count = i = 0;
+	tmp = _strdup(line);
+	token = strtok(tmp, " \t\n");
+	if (token == NULL)
 	{
-		arg[count] = token;
-		if (arg[count] == NULL)
-		{
-			fprintf(stderr, "Failed to alocate memory\n");
-			exit(EXIT_FAILURE);
-		}
-		++count;
-		token = strtok(NULL, delim);
+		free(line);
+		free(tmp);
+		tmp = line = NULL;
+		return (NULL);
 	}
-	arg[count] = NULL;
+	while (token)
+	{
+		++count;
+		token = strtok(NULL, " \t\n");
+	}
+	free(tmp);
+	tmp = NULL;
+	command = malloc(sizeof(char *) * (count + 1));
+	if (!command)
+	{
+		free(line);
+		line = NULL;
+		return (NULL);
+	}
+	token = strtok(line, " \t\n");
+	while (token)
+	{
+		command[i] = _strdup(token);
+		token = strtok(NULL, " \t\n");
+		++i;
+	}
+	free(line);
+	line = NULL;
+	return (command);
 }

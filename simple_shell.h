@@ -11,11 +11,11 @@
 extern char **environ;
 void printer(const char *input);
 void show_prompt(void);
-void execute(char *input, char **environ);
+int execute(char **command, char **argv);
 void read_input(char *input, size_t size);
 size_t _strlen(const char *string);
 char *get_line(void);
-void _tokenize(char *line, const char *delim, char *arg[], int max_token);
+char **_tokenize(char *line);
 void test_path(char *path, char *command, char fullpath[]);
 void _env(char **environ);
 void exit_cmd(void);
@@ -26,5 +26,7 @@ char *_strdup(char *str);
 char *_strchr(const char *path, int c);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
+char *_getenv(const char *path);
+void freeblock(char **array);
 
 #endif /* SIMPLE_SHELL_H */
